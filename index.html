@@ -4,9 +4,244 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
+    <title>TodoList</title>
 </head>
 <body>
-    
+    <div class="container is-fluid box">
+        <nav class="navbar has-background-grey-light mb-4" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item is-size-5 has-text-weight-semibold" href="#">
+                    TodoList
+                </a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-end">
+                    <a class="navbar-item">
+                        Toutes
+                    </a>
+
+                    <a class="navbar-item">
+                    Complètes
+                    </a>
+
+                    <a class="navbar-item">
+                    Incomplètes
+                    </a>
+
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+                        Toutes les catégories
+                        </a>
+
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item">
+                                Courses
+                            </a>
+                            <a class="navbar-item">
+                                O'Clock
+                            </a>
+                            <a class="navbar-item">
+                                Projet Professionnel
+                            </a>
+                        </div>
+                    </div>
+
+                    <a class="navbar-item">
+                    Voir les archives
+                    </a>
+
+                </div>
+            </div>
+
+        </nav> 
+        <section class="current-tasks">
+            <div class="box ">
+                <div class= "is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
+                    <p>
+                        Acheter du pain
+                    </p>
+                    <div class="is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
+                        <div class="mr-6 has-text-grey-light">
+                            Courses
+                        </div>
+                        <div>
+                            <button class="button has-background-primary-dark m-1">
+                                <span class="icon">
+                                    <i class="far fa-check-square has-text-light fa-lg "></i>
+                                </span>
+                            </button>
+                            <button class="button has-background-warning-dark m-1">
+                                <span class="icon">
+                                    <i class="far fa-edit has-text-light fa-lg"></i>
+                                </span>
+                            </button>
+                            <button class="button has-background-danger-dark m-1">
+                                <span class="icon">
+                                    <i class="fas fa-archive has-text-light fa-lg"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <progress class="progress is-small is-primary mt-4" value="0" max="100">0%</progress>
+            </div>
+            <div class="box ">
+                <div class= "is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
+                    <p>
+                        Réviser les objets en PHP
+                    </p>
+                    <div class="is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
+                        <div class="mr-6 has-text-grey-light">
+                            O'clock
+                        </div>
+                        <div>
+                            <button class="button has-background-primary-dark m-1">
+                                <span class="icon">
+                                    <i class="far fa-check-square has-text-light fa-lg "></i>
+                                </span>
+                            </button>
+                            <button class="button has-background-warning-dark m-1">
+                                <span class="icon">
+                                    <i class="far fa-edit has-text-light fa-lg"></i>
+                                </span>
+                            </button>
+                            <button class="button has-background-danger-dark m-1">
+                                <span class="icon">
+                                    <i class="fas fa-archive has-text-light fa-lg"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <progress class="progress is-small is-primary mt-4" value="80" max="100">80%</progress>
+            </div>
+            <div class="box ">
+                <div class= "is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
+                    <p>
+                        Revoir les évènements JS
+                    </p>
+                    <div class="is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
+                        <div class="mr-6 has-text-grey-light">
+                            O'clock
+                        </div>
+                        <div>
+                            <button class="button has-background-primary-dark m-1">
+                                <span class="icon">
+                                    <i class="far fa-check-square has-text-light fa-lg "></i>
+                                </span>
+                            </button>
+                            <button class="button has-background-warning-dark m-1">
+                                <span class="icon">
+                                    <i class="far fa-edit has-text-light fa-lg"></i>
+                                </span>
+                            </button>
+                            <button class="button has-background-danger-dark m-1">
+                                <span class="icon">
+                                    <i class="fas fa-archive has-text-light fa-lg"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <progress class="progress is-small is-primary mt-4" value="100" max="100">100%</progress>
+            </div>
+            <div class="box ">
+                <div class= "is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
+                    <p>
+                        Apprendre à apprendre
+                    </p>
+                    <div class="is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
+                        <div class="mr-6 has-text-grey-light">
+                            O'clock
+                        </div>
+                        <div>
+                            <button class="button has-background-primary-dark m-1">
+                                <span class="icon">
+                                    <i class="far fa-check-square has-text-light fa-lg "></i>
+                                </span>
+                            </button>
+                            <button class="button has-background-warning-dark m-1">
+                                <span class="icon">
+                                    <i class="far fa-edit has-text-light fa-lg"></i>
+                                </span>
+                            </button>
+                            <button class="button has-background-danger-dark m-1">
+                                <span class="icon">
+                                    <i class="fas fa-archive has-text-light fa-lg"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <progress class="progress is-small is-primary mt-4" value="30" max="100">30%</progress>
+            </div>
+
+        </section>
+        <section class="archived-tasks box mt-5">
+
+            <div class="field has-addons is-mobile">
+                
+                <p class="control is-expanded">
+                  <input class="input" type="text" placeholder="Nom de la tâche">
+                </p>
+                <p class="control">
+                    <span class="select">
+                      <select>
+                        <option>Choisir une catégorie</option>
+                        <option>Courses</option>
+                        <option>O'clock</option>
+                        <option>Projet Professionnel</option>
+                      </select>
+                    </span>
+                  </p>
+                <p class="control">
+                    <button class="button is-info">
+                        <i class="fas fa-plus"></i> &nbsp Ajouter
+                    </button>
+                </p>
+              </div>
+
+            
+
+        </section>
+    </div>
+
 </body>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Get all "navbar-burger" elements
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+  
+    // Check if there are any navbar burgers
+    if ($navbarBurgers.length > 0) {
+  
+      // Add a click event on each of them
+      $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+  
+          // Get the target from the "data-target" attribute
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+  
+          // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+  
+        });
+      });
+    }
+  
+  });
+      
+</script>
 </html>
