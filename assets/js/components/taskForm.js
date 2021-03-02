@@ -1,68 +1,34 @@
+console.log('%c' + 'taskForm.js chargé', 'color: #f0f; font-size: 1rem; background-color:#fff');
 const taskForm = {
 
-    addAllEventListeners: function(){
-      // on cible le formulaire
-      let form = document.querySelector('.task--add');
-      
-      // on ajoute un écouteur d'évenement de type submit sur le document
-      form.addEventListener('submit', taskForm.handleFormSubmit);
-      
-      
+  addAllEventListeners: function(){
+    // cibler le form
+    let formElement = document.querySelector('.task--add form')
+    // ajouter écouteur d'évenement sur "submit"
+    formElement.addEventListener('submit', taskForm.handleFormSubmit);
+  },
 
-  
-    },
-  
-    handleFormSubmit: function(event){
-      // methode qui s'execute lorsque le form est submit
-  
-      event.preventDefault();
-      console.log('blablabla');
-      let taskTemplate = document.querySelector('#task--template');
-      let taskToAdd = taskTemplate.content.cloneNode(true);
-      console.log(taskToAdd);
+  handleFormSubmit: function(event){
+    // empecher le comportement par défaut (envoie des datas/refresh de la page)
+    event.preventDefault();
+    // recupération du nom de la tache saisie par le user
+    let taskNewNameElement = document.querySelector('.task__name-edit');
+    //récupération de la valeur saisie par l'utilisateur
+    let taskNewName = taskNewNameElement.value;
 
-      // on récupère l'input du formulaire'
-      let input = document.querySelector('.input');
-      console.log(input);
+    let selectCategoriesElement = document.querySelector('.task__category select')
+    let categoryName = selectCategoriesElement.value;
 
-      //on récupère la valeur de l'input
-      let taskName = input.value;
-      console.log('la valeur de l\'input est :' + taskName);
+    //appel de la méthode permettant de créer le DOM pour une nouvelle tâche
+    let taskElement = task.createDOMElement(taskNewName, categoryName);
 
-      // on l'injecte dans taskToAdd
-      taskToAdd.querySelector('.task__name-display').textContent = taskName ;
-      console.log(taskToAdd);
-
-      //on modifie aussi la valeur de taskToAdd(value)
-      taskToAdd.querySelector('.input').setAttribute("value", input.value);
-
-      // on récupère la catégorie sélectionnée
-      // on récupère d'abord le select
-      let selectElement = document.querySelector(".task__category > .select > select");
-      // puis on récupère la valeur sélectionnée
-      let categoryName = selectElement.value;
-      //console.log(selectedCategory);
-
-      // on injecte la catégorie dans taskToAdd
-      taskToAdd.querySelector('.task__category > p').textContent = categoryName ;
-      console.log(taskToAdd);
-
-      // on ajoute la nouvelle tâche au DOM
-      document.querySelector('.tasks').prepend(taskToAdd);
-  
-      // on ajoute la tache a la LISTE DES TACHES (kind of)
-      tasksList.initializeTasksFromDom();
-  
-      // on vide l'input
-      input.value = "";
-
-      // on remet le focus sur l'input
-      input.focus();
-      console.log(input);
-    }
-  
-  
-  
-  
-  
+    // appel de la méthode qui permet d'ajouter la tache dans le DOM (dans la LISTE DES TACHES)
+    //todo CETTE METHODE N'EXISTE PAS ENCORE
+    tasksList.addTaskInDOM(taskElement);
   }
+
+
+
+
+
+}
