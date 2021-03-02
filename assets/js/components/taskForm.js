@@ -33,6 +33,9 @@ const taskForm = {
       taskToAdd.querySelector('.task__name-display').textContent = taskName ;
       console.log(taskToAdd);
 
+      //on modifie aussi la valeur de taskToAdd(value)
+      taskToAdd.querySelector('.input').setAttribute("value", input.value);
+
       // on récupère la catégorie sélectionnée
       // on récupère d'abord le select
       let selectElement = document.querySelector(".task__category > .select > select");
