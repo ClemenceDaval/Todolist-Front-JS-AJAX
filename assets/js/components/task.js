@@ -18,6 +18,9 @@ const task = {
     // on surveille les frappes de claviers (le moment où l'on relache la touche)
     taskInputNameELement.addEventListener('keyup', task.handleKeyUpOnTaskInputName);
 
+    //ciblage du bouton pour marquer comme terminée de la tâche
+    let taskCompleteButtonElement = taskElement.querySelector('.task__button--validate');
+    taskCompleteButtonElement.addEventListener('click', task.handleClickOnCompleteButton);
   },
 
   handleClickOnTaskName: function(event){
@@ -47,7 +50,7 @@ const task = {
     task.handleClickOnTaskName(event);
   },
 
-  handleBlurOnTaskInputName: function(){
+  handleBlurOnTaskInputName: function(event){
     //alert('blur');
      //récupération de la valeur saisie par l'utilisateur
      let taskInputNameElement = event.currentTarget;
@@ -72,6 +75,23 @@ const task = {
       // on appelle le meme callback quie lorsuq'il y a un event blur sur l'input
       task.handleBlurOnTaskInputName(event);
     }
+  },
+
+  handleClickOnCompleteButton: function(event){
+    // récupération de l'élément ayant déclenché l'event
+    let taskNameElement=event.currentTarget;
+
+    //récupération de l'élément ancêtre le plus proche ayant la classe task
+    let taskElement = taskNameElement.closest('.task');
+    console.log(taskElement);
+
+    // on lui ajoute la classe qui permet de faire le rendu 'complete'
+    taskElement.classList.add('task--complete');
+
+    // on lui remove la classe qui permet de faire le rendu 'incomplete'
+    taskElement.classList.remove('task--todo');
+
+
   }
 
 

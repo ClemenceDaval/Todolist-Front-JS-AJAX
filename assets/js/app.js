@@ -6,6 +6,8 @@ const app = {
       console.log('%c' + 'Methode init executée', 'color: #f0f; font-size: 1rem; background-color:#fff');
       // initialisation de la liste des taches
       tasksList.initializeTasksFromDom();
+      //initialisation du formulaire
+      taskForm.addAllEventListeners();
     }
   };
   
