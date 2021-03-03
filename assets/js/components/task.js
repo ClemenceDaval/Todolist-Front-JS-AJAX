@@ -129,6 +129,23 @@ const task = {
 
 
 
+  },
+
+  setStatus: function(taskElement, status){
+    //! MERCI LAURENT !
+    taskElement.querySelector('.task').classList.replace('task--todo', 'task--' + status);
+    //return taskElement;
+  },
+
+  setCompletion: function(taskElement, completion){
+    let progressBar = taskElement.querySelector('.progress-bar__level');
+    progressBar.style.width = completion + '%';
+    //return taskElement;
+  },
+
+  setId: function(taskElement, id){
+    taskElement.querySelector('.task').dataset.taskId = id;
+    //return taskElement;
   }
 
 
