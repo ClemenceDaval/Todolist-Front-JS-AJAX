@@ -15,16 +15,28 @@ const taskForm = {
     let taskNewNameElement = document.querySelector('.task__name-edit');
     //récupération de la valeur saisie par l'utilisateur
     let taskNewName = taskNewNameElement.value;
+    if (taskNewName.trim()==''){
+        alert('Le nom de la tâche est invalide !');
+        document.querySelector('.task__name-edit').focus();
+    } else{ 
+        let selectCategoriesElement = document.querySelector('.task__category select')
+        let categoryName = selectCategoriesElement.value;
 
-    let selectCategoriesElement = document.querySelector('.task__category select')
-    let categoryName = selectCategoriesElement.value;
+        //appel de la méthode permettant de créer le DOM pour une nouvelle tâche
+        let taskElement = task.createDOMElement(taskNewName, categoryName);
 
-    //appel de la méthode permettant de créer le DOM pour une nouvelle tâche
-    let taskElement = task.createDOMElement(taskNewName, categoryName);
+        // appel de la méthode qui permet d'ajouter la tache dans le DOM (dans la LISTE DES TACHES)
+        tasksList.addTaskInDOM(taskElement);
 
-    // appel de la méthode qui permet d'ajouter la tache dans le DOM (dans la LISTE DES TACHES)
-    //todo CETTE METHODE N'EXISTE PAS ENCORE
-    tasksList.addTaskInDOM(taskElement);
+        // une fois la tâche ajoutée, on vide l'input d'ajout et on y remet le focus
+        document.querySelector('.task__name-edit').value="";
+        document.querySelector('.task__name-edit').focus();
+    }
+
+
+    
+
+
   }
 
 

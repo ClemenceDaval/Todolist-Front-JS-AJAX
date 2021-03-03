@@ -119,15 +119,12 @@ const task = {
     // input ...
     templateForNewTask.querySelector('.task__name-edit').setAttribute('value', taskName);
     //templateForNewTask.querySelector('.task__name-edit').value = taskName;
+    
 
     // on enrgistre tous les events sur l'élement du DOM que nous venons de créer
     task.addAllEventListeners(templateForNewTask);
 
     return templateForNewTask;
-
-
-
-
 
   }
 
