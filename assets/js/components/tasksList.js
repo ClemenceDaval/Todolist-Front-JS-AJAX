@@ -26,11 +26,13 @@ const tasksList = {
     // nous souhaitons que la tache s'affiche au DEBUT de la liste
     taskListElement.prepend(taskElement);
 
+
+
   },
 
 
   loadTasksFromAPI: function(){
-    const url = 'https://benoclock.github.io/S07-todolist/tasks.json';
+    const url = 'http://localhost:8080/tasks';
 
     //envoyer la requete
     fetch(url)
@@ -45,7 +47,7 @@ const tasksList = {
 
   displayTasks: function(tasksListing){
       // une fois les taches récupérées, nous devons les ajouter au DOM
-      console.log(tasksListing);
+
       for(let taskData of tasksListing){
         //console.log(taskData);
         // récupération des infos dont nous allons avoir besoin
@@ -54,7 +56,7 @@ const tasksList = {
 
         // nous appelons le composant task pour lui demande de nous retrouner un element HTML "préfabriqué" et mis a jour 
         let taskElement = task.createDOMElement(taskName, categoryName);
-        console.log(taskData.id);
+        //console.log(taskData.id);
         // modification de l'élément en fonction du status de chaque  tache
         if(taskData.status == 2){
           // si le status de la tache vaut 2, il faut mettre a jour l'élement
@@ -73,6 +75,7 @@ const tasksList = {
         tasksList.addTaskInDOM(taskElement)
 
       }
+
   }
 
   

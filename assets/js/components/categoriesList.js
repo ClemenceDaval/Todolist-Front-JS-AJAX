@@ -9,7 +9,7 @@ const categoriesList = {
       // faire le fetch qui va consommer l'api de ben
       // convertir la réponse json brut en objet
       // afficher les categories dans le select dans le header
-      const url = 'https://benoclock.github.io/S07-todolist/categories.json';
+      const url = 'http://localhost:8080/categories';
   
       //envoyer la requete
       fetch(url)
