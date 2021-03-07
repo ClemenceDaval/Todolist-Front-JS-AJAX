@@ -26,6 +26,14 @@ const task = {
     let incompleteButtonElement = taskElement.querySelector('.task__button--incomplete');
     incompleteButtonElement.addEventListener('click', task.handleClickOnIncompleteButton);
 
+    //ciblage du bouton pour archiver une tâche
+    let archiveButtonElement = taskElement.querySelector('.task__button--archive');
+    archiveButtonElement.addEventListener('click', task.handleClickOnArchiveButton);
+    
+    //ciblage du bouton pour supprimer une tâche
+    let deleteButtonElement = taskElement.querySelector('.task__button--delete');
+    deleteButtonElement.addEventListener('click', task.handleClickOnDeleteButton);
+
   },
 
   handleClickOnValidateButtonElement : function(event){
@@ -225,6 +233,10 @@ const task = {
     //return taskElement;
   },
 
+  setDisplay: function(taskElement, value){
+    taskElement.querySelector('.task').style.display = value ;
+  },
+
   handleClickOnIncompleteButton: function(event){
 
     // récupération du bouton incomplete (qui a déclenché l'event)
@@ -279,6 +291,105 @@ const task = {
         console.log(data)
     });
 
+  },
+
+  handleClickOnArchiveButton: function(event){
+
+    // récupération du bouton archive (qui a déclenché l'event)
+    let archiveButtonElement = event.currentTarget;
+    let taskElement = archiveButtonElement.closest('.task');
+    // une fois que l'élement du DOM correspondant a une tache
+    // a été récupété, nous lui appliquons les bonnes classes CSS
+   
+
+    // appel à l'api pour mettre à jour(patcher) la tâche
+    // récupération de l'id de la tâche
+    const taskId = taskElement.dataset.taskId;
+
+    // on prépare nos données 
+    let data = {
+      'status' : 2 // le status de la tâche est 2 = tâche archivée
+    }
+
+    // on prépare les entêtes HTTP (headers) de la requete
+    // afin de spécifier que les données sont en json
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    // on consome l'API pour ajouter en BDD
+
+    let fetchOptions = {
+    method: 'PATCH',
+    headers: myHeaders,
+    body: JSON.stringify(data) // On ajoute les données, encodée en JSON, dans le corps de la requête
+    };
+
+    const url = 'http://localhost:8080/tasks/' + taskId;
+    
+    fetch(url, fetchOptions)
+    .then(
+        function(response){
+            if (response.status == 200){
+                taskElement.classList.remove('task--complete');
+                taskElement.classList.add('task--archive');
+                alert('tâche archivée');
+            } else {
+                alert('la modification de la tâche a échoué');
+            }
+        return response.json()
+    })
+    .then(
+        function(data){
+        console.log(data)
+    });
+
+
+  },
+
+  handleClickOnDeleteButton: function(event){
+    // récupération du bouton delete (qui a déclenché l'event)
+    let deleteButtonElement = event.currentTarget;
+    let taskElement = deleteButtonElement.closest('.task');
+
+    // appel à l'api pour mettre à jour(patcher) la tâche
+    // récupération de l'id de la tâche
+    const taskId = taskElement.dataset.taskId;
+
+    // on prépare nos données 
+    let data = {}
+
+    // on prépare les entêtes HTTP (headers) de la requete
+    // afin de spécifier que les données sont en json
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    // on consome l'API pour ajouter en BDD
+
+    let fetchOptions = {
+    method: 'DELETE',
+    headers: myHeaders,
+    body: JSON.stringify(data) // On ajoute les données, encodée en JSON, dans le corps de la requête
+    };
+
+    const url = 'http://localhost:8080/tasks/' + taskId;
+
+    fetch(url, fetchOptions)
+    .then(
+        function(response){
+            if (response.status == 200){
+              alert('tâche supprimée');
+              console.log(taskElement);
+              taskElement.style.display = 'none' ;
+
+            } else {
+              alert('la modification de la tâche a échoué');
+            }
+    })
+   
+
   }
 
 }
+
+
+

@@ -9,6 +9,7 @@ const tasksList = {
     // dans une variable on va récupérerer TOUTES LES TACHES
     
     let taskElementsList = document.querySelectorAll('.tasks .task');
+    console.log(taskElementsList);
     //console.log(taskElementsList);
     // pour chacune des taches récupérées, nous allons 
     // enregistrer les event listeners qui nous interessent
@@ -16,6 +17,7 @@ const tasksList = {
     for(let taskElement of taskElementsList){
       // pour chaque TaskElement, nous utiliserons le module
       // task.js pour initialiser l'enregistrement des events
+      console.log(taskElement);
       task.addAllEventListeners(taskElement)
     }
   },
@@ -30,60 +32,80 @@ const tasksList = {
 
   },
 
-
-  loadTasksFromAPI: function(){
+    loadTasksFromAPI: function(taskStatus){
     const url = 'http://localhost:8080/tasks';
 
     //envoyer la requete
     fetch(url)
       .then(tasksList.convertFromJson) // nous convertissons la réponse json en objet
       .then(tasksList.displayTasks); // on affiche les taches
-  },
 
+    //envoyer la requete
+    // fetch(url)
+    //   .then(
+    //   function(response){
+    //     tasksList.convertFromJson(response); // nous convertissons la réponse json en objet
+    //   }) 
+    //   .then(
+    //     function(data){
+    //       tasksList.displayTasks(data, taskStatus); // on affiche les taches
+    //   });
+  },
+  
 
   convertFromJson(response){
     return response.json();
   },
 
   displayTasks: function(tasksListing){
-      // une fois les taches récupérées, nous devons les ajouter au DOM
+    // une fois les taches récupérées, nous devons les ajouter au DOM
 
-      for(let taskData of tasksListing){
-        //console.log(taskData);
-        // récupération des infos dont nous allons avoir besoin
-        let taskName = taskData.title;
-        let categoryName = taskData.category.name;
+    for(let taskData of tasksListing){
+      //console.log(taskData);
+      // récupération des infos dont nous allons avoir besoin
+      let taskName = taskData.title;
+      let categoryName = taskData.category.name;
 
-        // nous appelons le composant task pour lui demande de nous retrouner un element HTML "préfabriqué" et mis a jour 
-        let taskElement = task.createDOMElement(taskName, categoryName);
-        //console.log(taskData.id);
-        // modification de l'élément en fonction du status de chaque  tache
-        if(taskData.status == 2){
-          // si le status de la tache vaut 2, il faut mettre a jour l'élement
-          // et lui appliquer le status "archive"
-          task.setStatus(taskElement, 'archive');
-        }
-        else if(taskData.status == 1 && taskData.completion == 100){
-          task.setStatus(taskElement, 'complete');
-        }
+      // nous appelons le composant task pour lui demande de nous retrouner un element HTML "préfabriqué" et mis a jour 
+      let taskElement = task.createDOMElement(taskName, categoryName);
+      //console.log(taskData.id);
+      // modification de l'élément en fonction du status de chaque  tache
+      //console.log(taskElement);
 
-        // gestion progress bar
-        task.setCompletion(taskElement, taskData.completion);
-        //mise a jour de l'id (dans le DOM) de la tache
-        task.setId(taskElement, taskData.id);
-
-        tasksList.addTaskInDOM(taskElement)
-
+      if(taskData.status == 2){
+        // si le status de la tache vaut 2, il faut mettre a jour l'élement
+        // et lui appliquer le status "archive"
+        // et un displya none
+        task.setStatus(taskElement, 'archive');
+        console.log(taskElement);
+        
       }
 
-  }
+      else if(taskData.status == 1 && taskData.completion == 100){
+        task.setStatus(taskElement, 'complete');
+        
+      }
+              
+      // if (app.displayArchives == false){
+      //   task.setDisplay(taskElement, 'block')
+      //   if(taskData.status == 2){
+      //     task.setDisplay(taskElement, 'none');
+      //   }
+      // } else {
+      //   task.setDisplay(taskElement, 'block')
+      //   if(taskData.status == 1){
+      //     task.setDisplay(taskElement, 'none');
+      //   }
+      // }
 
+      // gestion progress bar
+      task.setCompletion(taskElement, taskData.completion);
+      //mise a jour de l'id (dans le DOM) de la tache
+      task.setId(taskElement, taskData.id);
+
+      tasksList.addTaskInDOM(taskElement);
+
+    }
+  },
   
-
-
-
-
-
-
-
 }
