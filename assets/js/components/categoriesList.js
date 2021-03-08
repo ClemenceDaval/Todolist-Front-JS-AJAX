@@ -51,7 +51,7 @@ const categoriesList = {
     },
   
     displayCategoriesInTaskForm: function(categoriesListing){
-      console.log(categoriesListing);
+      //console.log(categoriesListing);
       // cibler le select dans le formulaire
       let selectElement = document.querySelector('.task--add select');
       categoriesList.displayCategoriesInSelectElement(selectElement, categoriesListing);
@@ -70,7 +70,14 @@ const categoriesList = {
         selectElement.appendChild(optionElement);
       }
   
-    }
+    },
+
+    //-------------------------------------------------------------
+    // methodes couche "MODELS"
+    //--------------------------------------------------------------
+    findById: function(categoryId){
+      return categoriesList.categoriesListing[categoryId];
+    },
   
   
   

@@ -1,15 +1,15 @@
-console.log('%c' + 'tasksList.js chargé', 'color: #f0f; font-size: 1rem; background-color:#fff');
+//console.log('%c' + 'tasksList.js chargé', 'color: #f0f; font-size: 1rem; background-color:#fff');
 
 
 const tasksList = {
   // initialisation de toutes les tâches présentent dans la page
   initializeTasksFromDom: function (){
-    console.log('%c' + 'Methode initializeTasksFromDom executée depuis module tasksList', 'color: #f0f; font-size: 1rem; background-color:#fff');
+    //console.log('%c' + 'Methode initializeTasksFromDom executée depuis module tasksList', 'color: #f0f; font-size: 1rem; background-color:#fff');
  
     // dans une variable on va récupérerer TOUTES LES TACHES
     
     let taskElementsList = document.querySelectorAll('.tasks .task');
-    console.log(taskElementsList);
+    //console.log(taskElementsList);
     //console.log(taskElementsList);
     // pour chacune des taches récupérées, nous allons 
     // enregistrer les event listeners qui nous interessent
@@ -17,7 +17,7 @@ const tasksList = {
     for(let taskElement of taskElementsList){
       // pour chaque TaskElement, nous utiliserons le module
       // task.js pour initialiser l'enregistrement des events
-      console.log(taskElement);
+      //console.log(taskElement);
       task.addAllEventListeners(taskElement)
     }
   },
@@ -28,28 +28,15 @@ const tasksList = {
     // nous souhaitons que la tache s'affiche au DEBUT de la liste
     taskListElement.prepend(taskElement);
 
-
-
   },
 
-    loadTasksFromAPI: function(taskStatus){
+  loadTasksFromAPI: function(taskStatus){
     const url = 'http://localhost:8080/tasks';
 
     //envoyer la requete
     fetch(url)
       .then(tasksList.convertFromJson) // nous convertissons la réponse json en objet
       .then(tasksList.displayTasks); // on affiche les taches
-
-    //envoyer la requete
-    // fetch(url)
-    //   .then(
-    //   function(response){
-    //     tasksList.convertFromJson(response); // nous convertissons la réponse json en objet
-    //   }) 
-    //   .then(
-    //     function(data){
-    //       tasksList.displayTasks(data, taskStatus); // on affiche les taches
-    //   });
   },
   
 
@@ -77,27 +64,14 @@ const tasksList = {
         // et lui appliquer le status "archive"
         // et un displya none
         task.setStatus(taskElement, 'archive');
-        console.log(taskElement);
-        
-      }
+        task.setDisplay(taskElement, 'none');
 
-      else if(taskData.status == 1 && taskData.completion == 100){
+        //console.log(taskElement);
+        
+      } else if(taskData.status == 1 && taskData.completion == 100){
         task.setStatus(taskElement, 'complete');
-        
-      }
-              
-      // if (app.displayArchives == false){
-      //   task.setDisplay(taskElement, 'block')
-      //   if(taskData.status == 2){
-      //     task.setDisplay(taskElement, 'none');
-      //   }
-      // } else {
-      //   task.setDisplay(taskElement, 'block')
-      //   if(taskData.status == 1){
-      //     task.setDisplay(taskElement, 'none');
-      //   }
-      // }
-
+      }    
+         
       // gestion progress bar
       task.setCompletion(taskElement, taskData.completion);
       //mise a jour de l'id (dans le DOM) de la tache

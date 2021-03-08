@@ -1,4 +1,4 @@
-console.log('task.js chargé');
+//console.log('task.js chargé');
 
 const task = {
 
@@ -34,10 +34,13 @@ const task = {
     let deleteButtonElement = taskElement.querySelector('.task__button--delete');
     deleteButtonElement.addEventListener('click', task.handleClickOnDeleteButton);
 
+    // ciblage du bouton pour désarchiver une tâche archivée
+    let desarchiveButtonElement = taskElement.querySelector('.task__button--desarchive');
+    desarchiveButtonElement.addEventListener('click', task.handleClickOnDesarchiveButton);
+
   },
 
   handleClickOnValidateButtonElement : function(event){
-    //alert('Validate');
     // récupération du bouton validation (qui a déclenché l'event)
     let validateButtonElement = event.currentTarget;
     let taskElement = validateButtonElement.closest('.task');
@@ -45,9 +48,7 @@ const task = {
     // a été récupété, nous lui appliquons les bonnes classes CSS
     taskElement.classList.add('task--complete');
     taskElement.classList.remove('task--todo');
-    // bonus
-    // taskElement.classList.replace('task--todo', 'task--complete');
-
+  
     task.setCompletion(taskElement, 100);
 
     // appel à l'api pour mettre à jour(patcher) le niveau de completion de la tache
@@ -65,7 +66,6 @@ const task = {
     myHeaders.append("Content-Type", "application/json");
 
     // on consome l'API pour ajouter en BDD
-
     let fetchOptions = {
     method: 'PATCH',
     headers: myHeaders,
@@ -78,22 +78,79 @@ const task = {
     .then(
         function(response){
             if (response.status == 200){
-                alert('tâche complétée');
+                console.log('La tâche a été marquée comme complétée');
+                errors.eraseError();
             } else {
-                alert('la modification de la tâche a échoué');
+                console.log('La modification de la tâche a échoué');            errors.displayError('L\'ajout de la tâche a échoué');
+                errors.displayError('La modification de la tâche a échoué');
+
             }
         return response.json()
     })
     .then(
         function(data){
-        console.log(data)
+        //console.log(data)
+    });
+  },
+
+  handleClickOnIncompleteButton: function(event){
+
+    // récupération du bouton incomplete (qui a déclenché l'event)
+    let incompleteButtonElement = event.currentTarget;
+    let taskElement = incompleteButtonElement.closest('.task');
+    // une fois que l'élement du DOM correspondant a une tache
+    // a été récupété, nous lui appliquons les bonnes classes CSS
+    taskElement.classList.remove('task--complete');
+    taskElement.classList.add('task--todo');
+
+    task.setCompletion(taskElement, 0);
+
+    // appel à l'api pour mettre à jour(patcher) le niveau de completion de la tache
+    // récupération de l'id de la tâche
+    const taskId = taskElement.dataset.taskId;
+
+    // on prépare nos données 
+    let data = {
+    'completion' : 0, // la tache est terminée
+    }
+
+    // on prépare les entêtes HTTP (headers) de la requete
+    // afin de spécifier que les données sont en json
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    // on consome l'API pour ajouter en BDD
+    let fetchOptions = {
+    method: 'PATCH',
+    headers: myHeaders,
+    body: JSON.stringify(data) // On ajoute les données, encodée en JSON, dans le corps de la requête
+    };
+
+    const url = 'http://localhost:8080/tasks/' + taskId;
+
+    fetch(url, fetchOptions)
+    .then(
+        function(response){
+            if (response.status == 200){
+                console.log('La tâche a été marquée comme incomplète');
+                errors.eraseError();
+                return response.json();
+            } else {
+                console.log('La modification de la tâche a échoué');
+                errors.displayError('La modification de la tâche a échoué');
+
+            }
+    })
+    .then(
+        function(data){
+        //console.log(data)
     });
   },
 
   handleClickOnTaskName: function(event){
     // récupération de l'élément ayant déclenché l'event
     let taskNameElement = event.currentTarget;
-    console.log(taskNameElement);
+    //console.log(taskNameElement);
 
     // récupération de l'élément "ancêtre" le plus proche
     // ayant la classe "task"
@@ -132,7 +189,7 @@ const task = {
 
     //ciblage de l'élément affichant le nom de la tâche (le p)
     let taskNameElement = taskElement.querySelector('.task__name-display');
-
+    
     // appel à l'api pour mettre à jour(patcher) le niveau de completion de la tache
     // récupération de l'id de la tâche
     const taskId = taskElement.dataset.taskId;
@@ -161,20 +218,22 @@ const task = {
     .then(
         function(response){
             if (response.status == 200){
-                alert('tâche modifiée');
+                console.log('La tâche a été modifiée');
+                errors.eraseError();
                 // mise à jour du contenu texte de l'élement affichant le nom de la tache
                 taskNameElement.textContent = taskNewName;
                 // on retire la classe CSS task--edit de l'élement task
                 taskElement.classList.remove('task--edit');
-
+                return response.json()
             } else {
-                alert('la modification de la tâche a échoué');
+                console.log('La modification de la tâche a échoué');
+                errors.displayError('La modification de la tâche a échoué');
+
             }
-        return response.json()
     })
     .then(
         function(data){
-        console.log(data)
+        //console.log(data)
     });
     
   },
@@ -233,64 +292,12 @@ const task = {
     //return taskElement;
   },
 
-  setDisplay: function(taskElement, value){
-    taskElement.querySelector('.task').style.display = value ;
+  getId: function(taskElement){
+    return taskElement.dataset.taskId ;
   },
 
-  handleClickOnIncompleteButton: function(event){
-
-    // récupération du bouton incomplete (qui a déclenché l'event)
-    let incompleteButtonElement = event.currentTarget;
-    let taskElement = incompleteButtonElement.closest('.task');
-    // une fois que l'élement du DOM correspondant a une tache
-    // a été récupété, nous lui appliquons les bonnes classes CSS
-    taskElement.classList.remove('task--complete');
-    taskElement.classList.add('task--todo');
-
-    // bonus
-    // taskElement.classList.replace('task--todo', 'task--complete');
-
-    task.setCompletion(taskElement, 0);
-
-    // appel à l'api pour mettre à jour(patcher) le niveau de completion de la tache
-    // récupération de l'id de la tâche
-    const taskId = taskElement.dataset.taskId;
-
-    // on prépare nos données 
-    let data = {
-    'completion' : 0, // la tache est terminée
-    }
-
-    // on prépare les entêtes HTTP (headers) de la requete
-    // afin de spécifier que les données sont en json
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    // on consome l'API pour ajouter en BDD
-
-    let fetchOptions = {
-    method: 'PATCH',
-    headers: myHeaders,
-    body: JSON.stringify(data) // On ajoute les données, encodée en JSON, dans le corps de la requête
-    };
-
-    const url = 'http://localhost:8080/tasks/' + taskId;
-
-    fetch(url, fetchOptions)
-    .then(
-        function(response){
-            if (response.status == 200){
-                alert('tâche incomplète');
-            } else {
-                alert('la modification de la tâche a échoué');
-            }
-        return response.json()
-    })
-    .then(
-        function(data){
-        console.log(data)
-    });
-
+  setDisplay: function(taskElement, value){
+    taskElement.querySelector('.task').style.display = value ;
   },
 
   handleClickOnArchiveButton: function(event){
@@ -300,7 +307,6 @@ const task = {
     let taskElement = archiveButtonElement.closest('.task');
     // une fois que l'élement du DOM correspondant a une tache
     // a été récupété, nous lui appliquons les bonnes classes CSS
-   
 
     // appel à l'api pour mettre à jour(patcher) la tâche
     // récupération de l'id de la tâche
@@ -332,15 +338,74 @@ const task = {
             if (response.status == 200){
                 taskElement.classList.remove('task--complete');
                 taskElement.classList.add('task--archive');
-                alert('tâche archivée');
+                taskElement.style.display = 'none';
+                errors.eraseError();
             } else {
-                alert('la modification de la tâche a échoué');
+              errors.displayError('La modification de la tâche a échoué');
+              errors.displayError('La modification de la tâche a échoué');
+
             }
         return response.json()
     })
     .then(
         function(data){
-        console.log(data)
+        //console.log(data)
+    });
+
+
+  },
+
+  handleClickOnDesarchiveButton: function(event){
+
+    // récupération du bouton archive (qui a déclenché l'event)
+    let desarchiveButtonElement = event.currentTarget;
+    let taskElement = desarchiveButtonElement.closest('.task');
+    // une fois que l'élement du DOM correspondant a une tache
+    // a été récupété, nous lui appliquons les bonnes classes CSS
+
+    // appel à l'api pour mettre à jour(patcher) la tâche
+    // récupération de l'id de la tâche
+    const taskId = taskElement.dataset.taskId;
+
+    // on prépare nos données 
+    let data = {
+      'status' : 1 // le status de la tâche est 1 = tâche activée
+    }
+
+    // on prépare les entêtes HTTP (headers) de la requete
+    // afin de spécifier que les données sont en json
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    // on consome l'API pour ajouter en BDD
+
+    let fetchOptions = {
+    method: 'PATCH',
+    headers: myHeaders,
+    body: JSON.stringify(data) // On ajoute les données, encodée en JSON, dans le corps de la requête
+    };
+
+    const url = 'http://localhost:8080/tasks/' + taskId;
+    
+    fetch(url, fetchOptions)
+    .then(
+        function(response){
+            if (response.status == 200){
+                taskElement.classList.add('task--complete');
+                taskElement.classList.remove('task--archive');
+                taskElement.style.display = 'none';
+                console.log('La tâche a été desarchivée');
+                errors.eraseError();
+            } else {
+                console.log('La modification de la tâche a échoué');
+                errors.displayError('La modification de la tâche a échoué');
+
+            }
+        return response.json()
+    })
+    .then(
+        function(data){
+        //console.log(data)
     });
 
 
@@ -377,12 +442,15 @@ const task = {
     .then(
         function(response){
             if (response.status == 200){
-              alert('tâche supprimée');
-              console.log(taskElement);
+              console.log('La tâche a été supprimée');
+              //console.log(taskElement);
               taskElement.style.display = 'none' ;
+              errors.eraseError();
 
             } else {
-              alert('la modification de la tâche a échoué');
+              console.log('La suppression de la tâche a échoué');                  errors.displayError('La modification de la tâche a échoué');
+              errors.displayError('La suppression de la tâche a échoué');
+
             }
     })
    
