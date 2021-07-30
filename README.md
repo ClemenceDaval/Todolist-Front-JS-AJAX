@@ -6,7 +6,7 @@ Front-end of a todolist application
 * Add a new task and select a category
 * Archive a task
 * Mark a task as finished
-* Modify task
+* Modify a task
 
 ## Technologies
 JS  
